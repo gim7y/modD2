@@ -16,11 +16,12 @@ class Author(models.Model):
         cRat = 0
         cRat += commentRat.get('commentRating')
 
-        # otherRat = Comment.objects.filter(post__author=self).aggregate(Sum('com_rating')).get('com_rating__sum')
-        # oRat = 0
-        # oRat += otherRat.get('com_rating')
+        otherRat = Comment.objects.filter(commentRat_id=self.id).aggregate(Sum('rating')).get('rating__sum')
 
-        self.ratingAuthor = pRat * 3 + cRat
+        oRat = 0
+        oRat += otherRat.get('rating')
+
+        self.ratingAuthor = pRat * 3 + cRat + oRat
         self.save()
 
 
